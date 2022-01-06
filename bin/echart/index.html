@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="./echarts.min.js"></script>
+    <script src="./jquery.min.js"></script>
+    <script src="./qwebchannel.js"></script>
+</head>
+
+<body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 100%;height:800px;"></div>
+</body>
+<script type="text/javascript">
+
+    var arr = new Array(10000); //固定数组长度为3
+    var length = arr.length; //对数组进行遍历
+    for (var i = 0; i < length; i++) {
+        arr[i] = [Math.ceil(Math.random() * 10000000), Math.ceil(Math.random() * 1000000)];
+    }
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    // 指定图表的配置项和数据
+    option = {
+        animation: false,
+        xAxis: {
+            scale: true
+        },
+        yAxis: {
+            scale: true
+        },
+        toolbox: {
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        series: {
+            symbolSize: 1,
+            type: 'scatter',
+            data: arr,
+            large: true,
+            lagreThreshold: 100000,
+            progressive: 100000,
+            progressiveThreshold: 100000
+        }
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+    //JS与Qt通信
+    new QWebChannel(qt.webChannelTransport, function (channel) {
+        var webobj = channel.objects.webobj;
+        window.foo = webobj;
+        //JS发送信号给QObject对象
+        myChart.getZr().on('click', function (params) {
+            // webobj.content = 'sdfef中文';
+            webobj.slot_mouse_click(params.offsetX, params.offsetY);
+        });
+        myChart.getZr().on('mousemove', function (params) {
+            webobj.slot_mouse_move(params.offsetX, params.offsetY);
+        });
+        myChart.on('datazoom', function (params) {
+            //获得图表数据数组下标
+            var startValue = myChart.getModel().option.dataZoom[0].startValue;
+            var endValue = myChart.getModel().option.dataZoom[0].endValue;
+            //获得起止位置百分比
+            var startPercent = myChart.getModel().option.dataZoom[0].start;
+            var endPercent = myChart.getModel().option.dataZoom[0].end;
+        });
+        //Qobject对象信号与JS连接
+        webobj.sign_draw_rect.connect(setGraphic);
+    });
+
+    //尺寸重置
+    function setSize(size) {
+        var main = document.getElementById('main');
+        main.style.width = size["width"] + "px";
+        main.style.height = size["height"] + "px";
+        myChart.resize();
+    }
+
+    //重置数据
+    function setData(data) {
+        myChart.setOption({
+            series: {
+                symbolSize: 10,
+                type: 'scatter',
+                data: data["arr"]
+            }
+        });
+    }
+
+    //添加文字
+    function setGraphic(data) {
+        myChart.setOption({
+            graphic: {
+                type: 'text',
+                style: {
+                    text: "请输入内容",
+                    x: data["x"],
+                    y: data["y"]
+                }
+            }
+        });
+    }
+
+</script>
+
+</html>

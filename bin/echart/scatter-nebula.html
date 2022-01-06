@@ -1,0 +1,119 @@
+<!--
+    THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/zh/editor.html?c=scatter-nebula
+-->
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/extension/dataTool.min.js"></script>
+        -->
+  <!-- Uncomment this line if you want to use gl extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+        -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+        -->
+  <!-- Uncomment this line if you want to use map
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/map/js/china.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/map/js/world.js"></script>
+        -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+        <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=<Your Key Here>"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@{{version}}/dist/extension/bmap.min.js"></script>
+        -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+
+    var option;
+    var ROOT_PATH ='https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples';
+    const dataURL = ROOT_PATH + '/data/asset/data/fake-nebula.bin';
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', dataURL, true);
+    xhr.responseType = 'arraybuffer';
+    myChart.showLoading();
+    xhr.onload = function (e) {
+      myChart.hideLoading();
+      var rawData = new Float32Array(this.response);
+      option = {
+        title: {
+          left: 'center',
+          text:
+            echarts.format.addCommas(Math.round(rawData.length / 2)) + ' Points',
+          subtext: 'Fake data'
+        },
+        tooltip: {},
+        toolbox: {
+          right: 20,
+          feature: {
+            dataZoom: {}
+          }
+        },
+        grid: {
+          right: 70,
+          bottom: 70
+        },
+        xAxis: [{}],
+        yAxis: [{}],
+        dataZoom: [
+          {
+            type: 'inside'
+          },
+          {
+            type: 'slider',
+            showDataShadow: false,
+            handleIcon:
+              'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '80%'
+          },
+          {
+            type: 'inside',
+            orient: 'vertical'
+          },
+          {
+            type: 'slider',
+            orient: 'vertical',
+            showDataShadow: false,
+            handleIcon:
+              'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '80%'
+          }
+        ],
+        animation: false,
+        series: [
+          {
+            type: 'scatter',
+            data: rawData,
+            dimensions: ['x', 'y'],
+            symbolSize: 3,
+            itemStyle: {
+              opacity: 0.4
+            },
+            blendMode: 'source-over',
+            large: true,
+            largeThreshold: 500
+          }
+        ]
+      };
+      myChart.setOption(option);
+    };
+    xhr.send();
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+  </script>
+</body>
+
+</html>

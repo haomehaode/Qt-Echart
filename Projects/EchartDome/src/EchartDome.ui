@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EchartDomeClass</class>
+ <widget class="QMainWindow" name="EchartDomeClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>838</width>
+    <height>630</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EchartDome</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" colspan="4">
+     <widget class="QWebEngineView" name="webEngineView">
+      <property name="url">
+       <url>
+        <string>about:blank</string>
+       </url>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="btnBasicScatter">
+      <property name="text">
+       <string>100散点</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="btnAreaSimple">
+      <property name="text">
+       <string>简单区域</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QPushButton" name="btnLargeScatter">
+      <property name="text">
+       <string>大规模散点图</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QPushButton" name="btnScatterNebula">
+      <property name="text">
+       <string>大规模星云散点图</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="res/EchartDome.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>btnBasicScatter</sender>
+   <signal>clicked()</signal>
+   <receiver>EchartDomeClass</receiver>
+   <slot>slot_basic_scatter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>609</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>418</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnLargeScatter</sender>
+   <signal>clicked()</signal>
+   <receiver>EchartDomeClass</receiver>
+   <slot>slot_large_scatter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>522</x>
+     <y>609</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>418</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnScatterNebula</sender>
+   <signal>clicked()</signal>
+   <receiver>EchartDomeClass</receiver>
+   <slot>slot_scatter_nebula()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>728</x>
+     <y>609</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>418</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAreaSimple</sender>
+   <signal>clicked()</signal>
+   <receiver>EchartDomeClass</receiver>
+   <slot>slot_area_simple()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>315</x>
+     <y>609</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>418</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>slot_basic_scatter()</slot>
+  <slot>slot_large_scatter()</slot>
+  <slot>slot_scatter_nebula()</slot>
+  <slot>slot_area_simple()</slot>
+ </slots>
+</ui>
